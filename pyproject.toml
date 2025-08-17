@@ -22,6 +22,10 @@ flake8 = "^7.3.0"
 black = "^25.1.0"
 mypy = "^1.17.1"
 
+
+[tool.poetry.group.dev.dependencies]
+python-dotenv = "^1.1.1"
+
 [tool.black]
 # Максимальная длина строки
 line-length = 119
