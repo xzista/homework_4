@@ -42,6 +42,6 @@ class Contact(models.Model):
         verbose_name = 'Контакт'
         verbose_name_plural = 'Контакты'
         ordering = ['name',]
-        
+
     def __str__(self):
         return self.name
