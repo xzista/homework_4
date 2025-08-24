@@ -34,7 +34,7 @@ class Product(models.Model):
 
 class Contact(models.Model):
     name = models.CharField(max_length=100, verbose_name='Название компании')
-    address = models.TextField(verbose_name='Адрес',blank=True,null=True)
+    address = models.CharField(max_length=100, verbose_name='Адрес',blank=True,null=True)
     phone = models.CharField(max_length=20, verbose_name='Телефон',blank=True,null=True)
     email = models.EmailField(verbose_name='Email',blank=True,null=True)
 
