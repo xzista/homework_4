@@ -1,0 +1,18 @@
+[
+{
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+        "name": "Смартфоны",
+        "description": "Все современные линейки смартфонов"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+        "name": "Ноутбуки",
+        "description": "Самые мощные ноутбкуки для работы и игр!"
+    }
+}
+]
