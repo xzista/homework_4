@@ -19,7 +19,7 @@
                 <h1 class="fw-bold">{{ product.name }}</h1>
                 <p class="lead">{{ product.description }}</p>
                 <h3 class="text-primary">{{ product.price }} руб.</h3>
-                <button class="btn btn-primary btn-lg">Купить</button>
+                <a href="{% url 'catalog:product_page' product.pk %}" class="btn btn-primary btn-lg" role="button">Посмотреть</a>
             </div>
         </div>
     </div>
@@ -39,7 +39,7 @@
                         <h3 class="fw-bold">{{ product.name }}</h3>
                         <p class="lead">{{ product.description }}</p>
                         <h5 class="text-primary">{{ product.price }} руб.</h5>
-                        <button class="btn btn-primary btn-lg">Купить</button>
+                        <a href="{% url 'catalog:product_page' product.pk %}" class="btn btn-primary btn-lg" role="button">Посмотреть</a>
                     </div>
                 </div>
             </div>
