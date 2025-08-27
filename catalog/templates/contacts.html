@@ -1,0 +1,83 @@
+<!doctype html>
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="text-center">
+    <h1 class="mb-3">Контакты</h1>
+
+    <div class="row justify-content-center mt-5 gx-5">
+        <div class="col-md-5 col-lg-5 mb-4 me-5">
+            <div class="card" style="width: 35vh;">
+                <div class="card-body">
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <div class="mb-3 text-start">
+                            <label for="name" class="form-label">Имя</label>
+                            <input type="text" id="name" name="name" class="form-control" required>
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label for="email" class="form-label">Почта</label>
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="addon-wrapping">@</span>
+                                <input type="text" id="email" name="email" class="form-control" placeholder=""
+                                       aria-label="Username"
+                                       aria-describedby="addon-wrapping" required>
+                            </div>
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label for="message" class="form-label">Сообщение</label>
+                            <textarea id="message" name="message" class="form-control" rows="3"
+                                      required></textarea>
+                        </div>
+                        <div class="mt-auto d-flex justify-content-between align-items-center">
+                            <button type="submit" class="btn btn-primary">Отправить</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5 col-lg-5 mb-4 me-5">
+            <div class="text-start">
+                <h4>Наши контакты</h4>
+
+                {% if contact %}
+                <div class="contact-card mb-4 p-3 border rounded">
+                    <h5 class="text-primary">{{ contact.name }}</h5>
+
+                    {% if contact.address %}
+                    <p class="mb-1">
+                        <strong>📍 Адрес:</strong><br>
+                        {{ contact.address|linebreaksbr }}
+                    </p>
+                    {% endif %}
+
+                    {% if contact.phone %}
+                    <p class="mb-1">
+                        <strong>📞 Телефон:</strong><br>
+                        <a href=# class="text-decoration-none">
+                            {{ contact.phone }}
+                        </a>
+                    </p>
+                    {% endif %}
+
+                    {% if contact.email %}
+                    <p class="mb-1">
+                        <strong>📧 Email:</strong><br>
+                        <a href=# class="text-decoration-none">
+                            {{ contact.email }}
+                        </a>
+                    </p>
+                    {% endif %}
+                </div>
+                {% else %}
+                <div class="alert alert-warning">
+                    <p>Контактная информация временно недоступна.</p>
+                    <p class="mb-0 small">Пожалуйста, свяжитесь с нами через форму обратной связи.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
