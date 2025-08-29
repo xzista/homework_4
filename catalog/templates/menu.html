@@ -1,0 +1,57 @@
+{% load static %}
+{% load active_tags %}
+<div class="col-2 d-flex flex-column bg-dark text-white p-3"
+     style="position: fixed; top: 0; min-height: 100vh; overflow-y: auto;">
+    <div>
+        <div class="d-flex align-items-center mb-2">
+            <img src="{% static '/images/image_navbar.png' %}" alt="Logo"
+                 style="height: 40px; margin-right: 8px;">
+            <span class="fs-2">Меню</span>
+        </div>
+        <hr class="my-3">
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a href="{% url 'catalog:home' %}" class="nav-link {% active request 'home' %}">
+                    Главная
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link {% active request 'categories' %}">
+                    Категории
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link {% active request 'orders' %}">
+                    Заказы
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'catalog:contacts' %}" class="nav-link {% active request 'contacts' %}">
+                    Контакты
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link {% active request 'add_product' %}">
+                    Добавить товар
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- Нижний блок -->
+    <div class="dropdown mt-auto">
+        <hr class="my-3">
+        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+           id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="{% static '/images/photo.png' %}" alt="" width="32" height="32"
+                 class="rounded-circle me-2">
+            <strong>Пользователь</strong>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser">
+            <li><a class="dropdown-item" href="#">Профиль</a></li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" href="#">Выход</a></li>
+        </ul>
+    </div>
+</div>

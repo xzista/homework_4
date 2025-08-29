@@ -1,21 +1,23 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from unicodedata import category
 
 from catalog.models import Product, Contact
 
 
 def home(request):
-    latest_products = Product.objects.all().order_by('-created_at')[:5]
-
+    all_products = Product.objects.all().order_by('-created_at')
+    latest_products = all_products[:5]
     print("ПОСЛЕДНИЕ 5 ПРОДУКТОВ:")
     for i, product in enumerate(latest_products, 1):
         print(f'{i}. {product.name} категории: {product.category}, с ценой: {product.price} руб.')
 
     context = {
+        'all_products': all_products,
         'latest_products': latest_products
     }
 
-    return render(request, 'catalog/home.html', context)
+    return render(request, 'home.html', context)
 
 
 def contacts(request):
@@ -30,4 +32,15 @@ def contacts(request):
     context = {
         'contact': contact
     }
-    return render(request, 'catalog/contacts.html', context)
+    return render(request, 'contacts.html', context)
+
+
+def product_page(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+
+    similar_products = Product.objects.filter(category=product.category).exclude(id=product.id).order_by('?')[:4]
+
+    context = {'product': product,
+               'similar_products': similar_products,
+               }
+    return render(request, 'product_page.html', context)
