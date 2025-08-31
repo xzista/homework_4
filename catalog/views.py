@@ -1,23 +1,56 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
-from unicodedata import category
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView, DetailView, UpdateView
 
 from catalog.models import Product, Contact
 
 
-def home(request):
-    all_products = Product.objects.all().order_by('-created_at')
-    latest_products = all_products[:5]
-    print("ПОСЛЕДНИЕ 5 ПРОДУКТОВ:")
-    for i, product in enumerate(latest_products, 1):
-        print(f'{i}. {product.name} категории: {product.category}, с ценой: {product.price} руб.')
+class ProductListView(ListView):
+    model = Product
+    template_name = 'home.html'
+    context_object_name = 'products'
 
-    context = {
-        'all_products': all_products,
-        'latest_products': latest_products
-    }
 
-    return render(request, 'home.html', context)
+class ProductCreateView(CreateView):
+    model = Product
+    fields = ['name', 'price', 'category', 'description',]
+    template_name = 'product_create.html'
+    success_url = reverse_lazy('catalog:')  #
+
+
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = 'product_page.html'
+    context_object_name = 'product'
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    fields = ['name', 'price', 'category', 'description',]
+    template_name = ''
+    success_url = reverse_lazy('catalog:')  #
+
+
+class ProductDeleteView(DetailView):
+    model = Product
+    template_name = 'product_confirm_delete.html'
+    success_url = reverse_lazy('catalog:')  #
+
+
+# def home(request):
+#     all_products = Product.objects.all().order_by('-created_at')
+#     latest_products = all_products[:5]
+#     print("ПОСЛЕДНИЕ 5 ПРОДУКТОВ:")
+#     for i, product in enumerate(latest_products, 1):
+#         print(f'{i}. {product.name} категории: {product.category}, с ценой: {product.price} руб.')
+#
+#     context = {
+#         'all_products': all_products,
+#         'latest_products': latest_products
+#     }
+#
+#     return render(request, 'home.html', context)
 
 
 def contacts(request):
