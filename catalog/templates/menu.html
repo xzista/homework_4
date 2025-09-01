@@ -31,7 +31,7 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="nav-link {% active request 'add_product' %}">
+                <a href="{% url 'catalog:product_create' %}" class="nav-link {% active request 'product_create' %}">
                     Добавить товар
                 </a>
             </li>
