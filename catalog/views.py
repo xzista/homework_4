@@ -14,7 +14,7 @@ class ProductListView(ListView):
 
 class ProductCreateView(CreateView):
     model = Product
-    fields = ['name', 'price', 'category', 'description',]
+    fields = ['name', 'price', 'category', 'description', 'image',]
     template_name = 'product_create.html'
     success_url = reverse_lazy('catalog:product_create.html')
 
