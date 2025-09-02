@@ -10,7 +10,8 @@ class ProductListView(ListView):
     model = Product
     template_name = 'home.html'
     context_object_name = 'products'
-
+    paginate_by = 8
+    ordering = ['updated_at']
 
 class ProductCreateView(CreateView):
     model = Product
