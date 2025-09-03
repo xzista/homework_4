@@ -20,6 +20,10 @@
                 <p class="lead">{{ post.content }}</p>
                 <h5 class="text">{{ post.views_count }} просмотров</h5>
                 <a href="{% url 'blog:posts' %}" class="btn btn-primary btn-lg" role="button">Назад</a>
+                <small>{{ post.views_count }} просмотров</small>
+                <a href="{% url 'blog:post_update' post.pk %}" class="btn btn-light">
+                    Редактировать
+                </a>
             </div>
         </div>
     </div>
