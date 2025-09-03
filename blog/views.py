@@ -12,7 +12,17 @@ class BlogListView(ListView):
     
     def get_queryset(self):
         queryset = super().get_queryset()
-        return queryset.filter(is_published=True)#.order_by('views_count')
+        return queryset.filter(is_published=True).order_by('-views_count')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        posts = list(context['posts'])
+
+        context['featured_post'] = posts[0] if posts else None
+        context['popular_posts'] = posts[1:3] if len(posts) > 1 else []
+        context['other_posts'] = posts[3:] if len(posts) > 3 else []
+
+        return context
 
 
 class BlogDetailView(DetailView):
