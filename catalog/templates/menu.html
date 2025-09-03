@@ -39,6 +39,15 @@
     </div>
     <!-- Нижний блок -->
     <div class="dropdown mt-auto">
+        <div class="mt-auto">
+            <ul class="nav nav-pills flex-column">
+                <li>
+                    <a href="{% url 'blog:posts' %}" class="nav-link {% active request 'posts' %}">
+                        Блог
+                    </a>
+                </li>
+            </ul>
+        </div>
         <hr class="my-3">
         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
            id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
