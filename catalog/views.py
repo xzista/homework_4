@@ -1,8 +1,6 @@
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, TemplateView
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, DetailView, UpdateView
-
 from catalog.models import Product, Contact, Category
 
 
@@ -56,34 +54,51 @@ class ProductDeleteView(DetailView):
     success_url = reverse_lazy('catalog:')  #
 
 
-# def home(request):
-#     all_products = Product.objects.all().order_by('-created_at')
-#     latest_products = all_products[:5]
-#     print("ПОСЛЕДНИЕ 5 ПРОДУКТОВ:")
-#     for i, product in enumerate(latest_products, 1):
-#         print(f'{i}. {product.name} категории: {product.category}, с ценой: {product.price} руб.')
-#
-#     context = {
-#         'all_products': all_products,
-#         'latest_products': latest_products
-#     }
-#
-#     return render(request, 'home.html', context)
+class ContactsView(TemplateView):
+    template_name = 'contacts.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['contact'] = Contact.objects.get(name='FastDeli')
+        return context
 
-def contacts(request):
-    contact = Contact.objects.get(name='FastDeli')
-
-    if request.method == 'POST':
+    def post(self, request, *args, **kwargs):
         name = request.POST.get('name')
         email = request.POST.get('email')
         message = request.POST.get('message')
 
         return HttpResponse(f'Спасибо, {name}! Сообщение успешно зарегистрировано.')
-    context = {
-        'contact': contact
-    }
-    return render(request, 'contacts.html', context)
+
+
+    # def home(request):
+    #     all_products = Product.objects.all().order_by('-created_at')
+    #     latest_products = all_products[:5]
+    #     print("ПОСЛЕДНИЕ 5 ПРОДУКТОВ:")
+    #     for i, product in enumerate(latest_products, 1):
+    #         print(f'{i}. {product.name} категории: {product.category}, с ценой: {product.price} руб.')
+    #
+    #     context = {
+    #         'all_products': all_products,
+    #         'latest_products': latest_products
+    #     }
+    #
+    #     return render(request, 'home.html', context)
+
+
+
+# def contacts(request):
+#     contact = Contact.objects.get(name='FastDeli')
+#
+#     if request.method == 'POST':
+#         name = request.POST.get('name')
+#         email = request.POST.get('email')
+#         message = request.POST.get('message')
+#
+#         return HttpResponse(f'Спасибо, {name}! Сообщение успешно зарегистрировано.')
+#     context = {
+#         'contact': contact
+#     }
+#     return render(request, 'contacts.html', context)
 
 
 # def product_page(request, pk):
