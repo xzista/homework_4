@@ -8,7 +8,7 @@ class BlogPost(models.Model):
                               help_text='Загрузите изображение', blank=True, null=True)
     created_at = models.DateTimeField(verbose_name='Время создания', auto_now_add=True)
     is_published = models.BooleanField(default=True)
-    views_count = models.IntegerField()
+    views_count = models.PositiveIntegerField(verbose_name='Счетчик просмотров', help_text='Укажите количество просмотров', default=0)
 
     class Meta:
         verbose_name = 'Запись'
