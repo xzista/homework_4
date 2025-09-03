@@ -35,59 +35,67 @@
     </div>
 </div>
 <main class="container">
-    <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary">
-        <div class="col-lg-6 px-0"><h1 class="display-4 fst-italic">Title of a longer featured blog post</h1>
-            <p class="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and
-                efficiently about what’s most interesting in this post’s contents.</p>
-            <p class="lead mb-0"><a href="#" class="text-body-emphasis fw-bold">Continue reading...</a></p></div>
+    <div class="p-4 p-md-5 mb-4 rounded position-relative overflow-hidden"
+         {% if featured_post.image %}
+         style="background: url('{{ featured_post.image.url }}') center/cover; min-height: 400px;" {% endif %}>
+
+        <!-- Затемнение фона -->
+        <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50"></div>
+
+        <!-- Контент -->
+        <div class="position-relative z-3 text-white">
+            <div class="col-lg-6 px-0">
+                <h1 class="display-4 fst-italic">{{ featured_post.title }}</h1>
+                <p class="lead my-3">
+                    <small>{{ featured_post.created_at|date:"d M Y" }}</small>
+                </p>
+                <p class="lead my-3">{{ featured_post.content|truncatewords:50 }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <a href="{% url 'blog:post_page' featured_post.pk %}" class="btn btn-light">
+                        Continue reading...
+                    </a>
+                    <small>{{ featured_post.views_count }} просмотров</small>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="row mb-2">
-        <div class="col-md-6">
+        {% for post in popular_posts %}
+        <div class="col-md-6">  <!-- Каждый пост в отдельной колонке -->
             <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col p-4 d-flex flex-column position-static"><strong
-                        class="d-inline-block mb-2 text-primary-emphasis">World</strong>
-                    <h3 class="mb-0">Featured post</h3>
-                    <div class="mb-1 text-body-secondary">Nov 12</div>
-                    <p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in
-                        to additional content.</p> <a href="#" class="icon-link gap-1 icon-link-hover stretched-link">
-                        Continue reading
-                        <svg class="bi" aria-hidden="true">
-                            <use xlink:href="#chevron-right"></use>
-                        </svg>
-                    </a></div>
+                <div class="col p-4 d-flex flex-column position-static">
+                    <h3 class="mb-0">{{ post.title }}</h3>
+                    <div class="mb-1 text-body-secondary">{{ post.created_at|date:"d M Y" }}</div>
+                    <p class="card-text mb-auto">{{ post.content|truncatewords:10 }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="{% url 'blog:post_page' post.pk %}"
+                           class="icon-link gap-1 icon-link-hover stretched-link">
+                            Continue reading
+                            <svg class="bi" aria-hidden="true">
+                                <use xlink:href="#chevron-right"></use>
+                            </svg>
+                        </a>
+                        <small>{{ post.views_count }} просмотров</small>
+                    </div>
+                </div>
                 <div class="col-auto d-none d-lg-block">
-                    <svg aria-label="Placeholder: Thumbnail" class="bd-placeholder-img " height="250"
+                    {% if post.image %}
+                    <img src="{{ post.image.url }}" alt="{{ post.title }}"
+                         class="bd-placeholder-img" width="200" height="250"
+                         style="object-fit: cover;">
+                    {% else %}
+                    <svg aria-label="Placeholder: Thumbnail" class="bd-placeholder-img" height="250"
                          preserveAspectRatio="xMidYMid slice" role="img" width="200"
-                         xmlns="http://www.w3.org/2000/svg"><title>Placeholder</title>
+                         xmlns="http://www.w3.org/2000/svg">
+                        <title>Placeholder</title>
                         <rect width="100%" height="100%" fill="#55595c"></rect>
                         <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
                     </svg>
+                    {% endif %}
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col p-4 d-flex flex-column position-static"><strong
-                        class="d-inline-block mb-2 text-success-emphasis">Design</strong>
-                    <h3 class="mb-0">Post title</h3>
-                    <div class="mb-1 text-body-secondary">Nov 11</div>
-                    <p class="mb-auto">This is a wider card with supporting text below as a natural lead-in to
-                        additional content.</p> <a href="#" class="icon-link gap-1 icon-link-hover stretched-link">
-                        Continue reading
-                        <svg class="bi" aria-hidden="true">
-                            <use xlink:href="#chevron-right"></use>
-                        </svg>
-                    </a></div>
-                <div class="col-auto d-none d-lg-block">
-                    <svg aria-label="Placeholder: Thumbnail" class="bd-placeholder-img " height="250"
-                         preserveAspectRatio="xMidYMid slice" role="img" width="200"
-                         xmlns="http://www.w3.org/2000/svg"><title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#55595c"></rect>
-                        <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
-                    </svg>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
     </div>
     <div class="row g-5">
         <div class="col-md-8"><h3 class="pb-4 mb-4 fst-italic border-bottom">
@@ -105,39 +113,28 @@
                         writers, content, or something else entirely. Totally up to you.</p></div>
                 <div><h4 class="fst-italic">Recent posts</h4>
                     <ul class="list-unstyled">
+                        {% for post in other_posts %}
                         <li>
                             <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top"
-                               href="#">
-                                <svg aria-hidden="true" class="bd-placeholder-img " height="96"
-                                     preserveAspectRatio="xMidYMid slice" width="100%"
+                               href="{% url 'blog:post_page' post.pk %}">
+                                {% if post.image %}
+                                <img src="{{ post.image.url }}" alt="{{ post.title }}"
+                                     class="bd-placeholder-img" width="100" height="125"
+                                     style="object-fit: cover;">
+                                {% else %}
+                                <svg aria-label="Placeholder: Thumbnail" class="bd-placeholder-img" height="250"
+                                     preserveAspectRatio="xMidYMid slice" role="img" width="200"
                                      xmlns="http://www.w3.org/2000/svg">
-                                    <rect width="100%" height="100%" fill="#777"></rect>
+                                    <title>Placeholder</title>
+                                    <rect width="100%" height="100%" fill="#55595c"></rect>
+                                    <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
                                 </svg>
-                                <div class="col-lg-8"><h6 class="mb-0">Example blog post title</h6> <small
-                                        class="text-body-secondary">January 15, 2024</small></div>
+                                {% endif %}
+                                <div class="col-lg-8"><h6 class="mb-0">{{ post.title }}</h6> <small
+                                        class="text-body-secondary">{{ post.created_at|date:"d M Y" }}</small>
+                                    <small>{{ post.views_count }} просмотров</small></div>
                             </a></li>
-                        <li>
-                            <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top"
-                               href="#">
-                                <svg aria-hidden="true" class="bd-placeholder-img " height="96"
-                                     preserveAspectRatio="xMidYMid slice" width="100%"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <rect width="100%" height="100%" fill="#777"></rect>
-                                </svg>
-                                <div class="col-lg-8"><h6 class="mb-0">This is another blog post title</h6> <small
-                                        class="text-body-secondary">January 14, 2024</small></div>
-                            </a></li>
-                        <li>
-                            <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top"
-                               href="#">
-                                <svg aria-hidden="true" class="bd-placeholder-img " height="96"
-                                     preserveAspectRatio="xMidYMid slice" width="100%"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <rect width="100%" height="100%" fill="#777"></rect>
-                                </svg>
-                                <div class="col-lg-8"><h6 class="mb-0">Longer blog post title: This one has multiple
-                                    lines!</h6> <small class="text-body-secondary">January 13, 2024</small></div>
-                            </a></li>
+                        {% endfor %}
                     </ul>
                 </div>
                 <div class="p-4"><h4 class="fst-italic">Archives</h4>
@@ -158,7 +155,7 @@
                 </div>
                 <div class="p-4"><h4 class="fst-italic">Elsewhere</h4>
                     <ol class="list-unstyled">
-                        <li><a href="#">GitHub</a></li>
+                        <li><a href="https://github.com/xzista">GitHub</a></li>
                         <li><a href="#">Social</a></li>
                         <li><a href="#">Facebook</a></li>
                     </ol>
@@ -168,9 +165,6 @@
     </div>
 </main>
 <footer class="py-5 text-center text-body-secondary bg-body-tertiary"><p>Blog template built for <a
-        href="https://getbootstrap.com/">Bootstrap</a> by <a href="https://x.com/mdo">@mdo</a>.</p>
+        href="#">Bootstrap</a> by <a href="#">@mdo</a>.</p>
     <p class="mb-0"><a href="#">Back to top</a></p></footer>
-<script src="/docs/5.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        class="astro-vvvwv3sm"></script>
 {% endblock %}
