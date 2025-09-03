@@ -39,6 +39,7 @@ class BlogDetailView(DetailView):
 
 class BlogUpdateView(UpdateView):
     model = BlogPost
+    template_name = 'post_update.html'
     fields = ('title', 'content', 'image', 'is_published',)
     success_url = reverse_lazy('blog:posts')
 
