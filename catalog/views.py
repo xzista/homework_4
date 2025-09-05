@@ -44,7 +44,7 @@ class ProductDetailView(DetailView):
 class ProductUpdateView(UpdateView):  #none
     model = Product
     fields = ['name', 'price', 'category', 'description',]
-    template_name = ''
+    template_name = 'product_form.html'
     success_url = reverse_lazy('catalog:home')
 
     def get_success_url(self):
@@ -53,7 +53,7 @@ class ProductUpdateView(UpdateView):  #none
 
 class ProductDeleteView(DeleteView):  #none
     model = Product
-    template_name = 'product_confirm_delete.html'
+    template_name = 'product_delete.html'
     success_url = reverse_lazy('catalog:home')
 
 
