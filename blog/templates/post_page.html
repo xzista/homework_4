@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% load active_tags %}
+{% block title %}Статья{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="p-5 mb-4 bg-body-tertiary rounded-3">
+        <div class="row align-items-center">
+            <!-- Изображение -->
+            <div class="col-md-4 text-center">
+                <img src="{{ post.image | media_filter }}"
+                     class="img-fluid"
+                     alt="{{ post.name }}"
+                     style="max-height: 500px; object-fit: contain;">
+            </div>
+
+            <!-- Информация -->
+            <div class="col-md-8">
+                <h1 class="fw-bold">{{ post.title }}</h1>
+                <p class="lead">{{ post.content }}</p>
+                <h5 class="text">{{ post.views_count }} просмотров</h5>
+                <a href="{% url 'blog:posts' %}" class="btn btn-primary btn-lg" role="button">Назад</a>
+                <a href="{% url 'blog:post_update' post.pk %}" class="btn btn-light">Редактировать</a>
+                <a href="{% url 'blog:post_delete' post.pk %}" class="btn btn-danger">Удалить</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,6 +1,6 @@
 {% load active_tags %}
 <div class="row justify-content-center mt-5 g-4">
-    {% for product in all_products %}
+    {% for product in products %}
     <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="card text-center h-100 product-card">
             <div class="card-header">
@@ -21,6 +21,76 @@
     {% endfor %}
 </div>
 
+<!-- Пагинация -->
+{% if is_paginated %}
+<nav aria-label="Page navigation" class="mt-4">
+    <ul class="pagination justify-content-center">
+        <!-- Первая страница -->
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1" aria-label="First">
+                    &laquo;&laquo;
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                    &laquo;
+                </a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">&laquo;&laquo;</span>
+            </li>
+            <li class="page-item disabled">
+                <span class="page-link">&laquo;</span>
+            </li>
+        {% endif %}
+
+        <!-- Номера страниц -->
+        {% for num in paginator.page_range %}
+            {% if page_obj.number == num %}
+                <li class="page-item active">
+                    <span class="page-link">{{ num }}</span>
+                </li>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+
+        <!-- Следующая страница -->
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                    &raquo;
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ paginator.num_pages }}" aria-label="Last">
+                    &raquo;&raquo;
+                </a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">&raquo;</span>
+            </li>
+            <li class="page-item disabled">
+                <span class="page-link">&raquo;&raquo;</span>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+
+<!-- Информация о странице -->
+<div class="text-center mt-2">
+    <p class="text-muted">
+        Страница {{ page_obj.number }} из {{ paginator.num_pages }}
+        | Показано {{ page_obj|length }} товаров из {{ paginator.count }}
+    </p>
+</div>
+
 <style>
     .product-card {
         transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -35,6 +105,13 @@
     .hover-effect:hover {
         background-color: #0d6efd;
         color: white;
+        border-color: #0d6efd;
+    }
+    .pagination .page-link {
+        color: #0d6efd;
+    }
+    .pagination .page-item.active .page-link {
+        background-color: #0d6efd;
         border-color: #0d6efd;
     }
 </style>
