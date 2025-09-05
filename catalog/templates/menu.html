@@ -11,7 +11,7 @@
         <hr class="my-3">
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
-                <a href="{% url 'catalog:home' %}" class="nav-link {% active request 'home' %}">
+                <a href="{% url 'catalog:home' %}" class="nav-link {% active request 'home' 'product_page' 'product_delete' 'product_update' %}">
                     Главная
                 </a>
             </li>
@@ -42,7 +42,7 @@
         <div class="mt-auto">
             <ul class="nav nav-pills flex-column">
                 <li>
-                    <a href="{% url 'blog:posts' %}" class="nav-link {% active request 'posts' %}">
+                    <a href="{% url 'blog:posts' %}" class="nav-link {% active request 'posts' 'post_page' 'post_delete' 'post_update' %}">
                         Блог
                     </a>
                 </li>
