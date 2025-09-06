@@ -16,7 +16,7 @@ class ProductListView(ListView):
 class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
-    template_name = 'product_create.html'
+    template_name = 'product_form.html'
     success_url = reverse_lazy('catalog:home')
 
     def get_context_data(self, **kwargs):

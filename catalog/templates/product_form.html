@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
-{% block title %}Редактирование{% endblock %}
+{% block title %}{% if object %}Редактирование{% else %}Добавление товара{% endif %}{% endblock %}
 {% block content %}
 <div class="text-center">
-    <h1 class="mb-3">Редактирование товара</h1>
+    <h1 class="mb-3">{% if object %}Редактирование товара{% else %}Добавление нового товара{% endif %}</h1>
 </div>
 <div class="row justify-content-center mt-5 g-4">
     <div class="col-md-5 col-lg-5 mb-4">
