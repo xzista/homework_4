@@ -8,72 +8,72 @@ from catalog.models import Product, Contact, Category
 
 class ProductListView(ListView):
     model = Product
-    template_name = 'home.html'
-    context_object_name = 'products'
+    template_name = "home.html"
+    context_object_name = "products"
     paginate_by = 8
-    ordering = ['updated_at']
+    ordering = ["updated_at"]
+
 
 class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
-    template_name = 'product_form.html'
-    success_url = reverse_lazy('catalog:home')
+    template_name = "product_form.html"
+    success_url = reverse_lazy("catalog:home")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         categories = Category.objects.all()
 
-        context['categories'] = categories
+        context["categories"] = categories
         return context
 
 
 class ProductDetailView(DetailView):
     model = Product
-    template_name = 'product_page.html'
-    context_object_name = 'product'
+    template_name = "product_page.html"
+    context_object_name = "product"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         product = self.get_object()
 
-        similar_products = Product.objects.filter(category=product.category).exclude(id=product.id).order_by('?')[:4]
+        similar_products = Product.objects.filter(category=product.category).exclude(id=product.id).order_by("?")[:4]
 
-        context['similar_products'] = similar_products
+        context["similar_products"] = similar_products
         return context
 
 
 class ProductUpdateView(UpdateView):
     model = Product
     form_class = ProductForm
-    template_name = 'product_form.html'
-    success_url = reverse_lazy('catalog:home')
+    template_name = "product_form.html"
+    success_url = reverse_lazy("catalog:home")
 
     def get_success_url(self):
-        return reverse('catalog:product_page', args=[self.kwargs.get('pk')])
+        return reverse("catalog:product_page", args=[self.kwargs.get("pk")])
 
 
 class ProductDeleteView(DeleteView):
     model = Product
-    template_name = 'product_delete.html'
-    success_url = reverse_lazy('catalog:home')
+    template_name = "product_delete.html"
+    success_url = reverse_lazy("catalog:home")
 
 
 class ContactsView(TemplateView):
-    template_name = 'contacts.html'
+    template_name = "contacts.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['contact'] = Contact.objects.get(name='FastDeli')
+        context["contact"] = Contact.objects.get(name="FastDeli")
         return context
 
     def post(self, request, *args, **kwargs):
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        message = request.POST.get('message')
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        message = request.POST.get("message")
 
-        return HttpResponse(f'Спасибо, {name}! Сообщение успешно зарегистрировано.')
-
+        return HttpResponse(f"Спасибо, {name}! Сообщение успешно зарегистрировано.")
 
     # def home(request):
     #     all_products = Product.objects.all().order_by('-created_at')
@@ -88,7 +88,6 @@ class ContactsView(TemplateView):
     #     }
     #
     #     return render(request, 'home.html', context)
-
 
 
 # def contacts(request):

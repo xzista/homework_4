@@ -7,28 +7,28 @@ from blog.models import BlogPost
 
 class BlogListView(ListView):
     model = BlogPost
-    template_name = 'blog_main.html'
-    context_object_name = 'posts'
-    
+    template_name = "blog_main.html"
+    context_object_name = "posts"
+
     def get_queryset(self):
         queryset = super().get_queryset()
-        return queryset.filter(is_published=True).order_by('-views_count')
+        return queryset.filter(is_published=True).order_by("-views_count")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        posts = list(context['posts'])
+        posts = list(context["posts"])
 
-        context['featured_post'] = posts[0] if posts else None
-        context['popular_posts'] = posts[1:3] if len(posts) > 1 else []
-        context['other_posts'] = posts[3:] if len(posts) > 3 else []
+        context["featured_post"] = posts[0] if posts else None
+        context["popular_posts"] = posts[1:3] if len(posts) > 1 else []
+        context["other_posts"] = posts[3:] if len(posts) > 3 else []
 
         return context
 
 
 class BlogDetailView(DetailView):
     model = BlogPost
-    template_name = 'post_page.html'
-    context_object_name = 'post'
+    template_name = "post_page.html"
+    context_object_name = "post"
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
@@ -39,22 +39,32 @@ class BlogDetailView(DetailView):
 
 class BlogCreateView(CreateView):
     model = BlogPost
-    fields = ['title', 'content', 'image', 'is_published',]
-    template_name = 'post_form.html'
-    success_url = reverse_lazy('blog:posts')
+    fields = [
+        "title",
+        "content",
+        "image",
+        "is_published",
+    ]
+    template_name = "post_form.html"
+    success_url = reverse_lazy("blog:posts")
 
 
 class BlogUpdateView(UpdateView):
     model = BlogPost
-    template_name = 'post_form.html'
-    fields = ('title', 'content', 'image', 'is_published',)
-    success_url = reverse_lazy('blog:posts')
+    template_name = "post_form.html"
+    fields = (
+        "title",
+        "content",
+        "image",
+        "is_published",
+    )
+    success_url = reverse_lazy("blog:posts")
 
     def get_success_url(self):
-        return reverse('blog:post_page', args=[self.kwargs.get('pk')])
+        return reverse("blog:post_page", args=[self.kwargs.get("pk")])
 
 
 class BlogDeleteView(DeleteView):
     model = BlogPost
-    template_name = 'post_delete.html'
-    success_url = reverse_lazy('blog:posts')
+    template_name = "post_delete.html"
+    success_url = reverse_lazy("blog:posts")
