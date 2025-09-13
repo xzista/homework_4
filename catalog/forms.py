@@ -32,6 +32,12 @@ class ProductForm(StyleFormMixin, ModelForm):
             raise ValidationError("Цена не может быть отрицательной")
         return price
 
+
+    def clean_image(self):
+        image = self.cleaned_data.get("image")
+
+
+
     def clean(self):
         cleaned_data = super().clean()
         filter_words = [
