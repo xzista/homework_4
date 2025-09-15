@@ -29,15 +29,18 @@
                 </a>
             </li>
             <li>
-                <a href="{% url 'catalog:contacts' %}" class="nav-link {% active request 'contacts' %}">
+                <a {% if user.is_authenticated %}href="{% url 'catalog:contacts' %}" {% else %}href="#" {% endif %}
+                   class="nav-link {% active request 'contacts' %}">
                     Контакты
                 </a>
             </li>
+
             <li>
-                <a href="{% url 'catalog:product_create' %}" class="nav-link {% active request 'product_create' %}">
+                <a {% if user.is_authenticated %}href="{% url 'catalog:product_create' %}" {% else %}href="#" {% endif %} class="nav-link {% active request 'product_create' %}">
                     Добавить товар
                 </a>
             </li>
+
         </ul>
     </div>
     <!-- Нижний блок -->
@@ -45,7 +48,7 @@
         <div class="mt-auto">
             <ul class="nav nav-pills flex-column">
                 <li>
-                    <a href="{% url 'blog:posts' %}"
+                    <a {% if user.is_authenticated %}href="{% url 'blog:posts' %}" {% else %}href="#" {% endif %}
                        class="nav-link {% active request 'posts' 'post_page' 'post_delete' 'post_update' %}">
                         Блог
                     </a>
@@ -56,8 +59,8 @@
         {% if user.is_authenticated %}
         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
            id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="{% static '/images/photo.png' %}" alt="{% static '/images/photo.png' %}" width="32" height="32"
-                 class="rounded-circle me-2">
+            <img src="{% if user.avatar %}{{ user.avatar | media_filter }}{% else %}{% static '/images/photo.png' %}{% endif %}"
+                 alt="{{ user.email }}" width="32" height="32" class="rounded-circle me-2">
             <strong>{{ user.email }}</strong>
         </a>
         <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser">
