@@ -9,6 +9,9 @@ class UserRegisterForm(StyleFormMixin, UserCreationForm):
         model = User
         fields = [
             "email",
+            "phone",
+            "country",
+            "avatar",
             "password1",
             "password2",
         ]
