@@ -29,14 +29,14 @@
                 </a>
             </li>
             <li>
-                <a {% if user.is_authenticated %}href="{% url 'catalog:contacts' %}" {% else %}href="#" {% endif %}
+                <a href="{% url 'catalog:contacts' %}"
                    class="nav-link {% active request 'contacts' %}">
                     Контакты
                 </a>
             </li>
 
             <li>
-                <a {% if user.is_authenticated %}href="{% url 'catalog:product_create' %}" {% else %}href="#" {% endif %} class="nav-link {% active request 'product_create' %}">
+                <a href="{% url 'catalog:product_create' %}" class="nav-link {% active request 'product_create' %}">
                     Добавить товар
                 </a>
             </li>
@@ -48,7 +48,7 @@
         <div class="mt-auto">
             <ul class="nav nav-pills flex-column">
                 <li>
-                    <a {% if user.is_authenticated %}href="{% url 'blog:posts' %}" {% else %}href="#" {% endif %}
+                    <a href="{% url 'blog:posts' %}"
                        class="nav-link {% active request 'posts' 'post_page' 'post_delete' 'post_update' %}">
                         Блог
                     </a>

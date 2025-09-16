@@ -13,10 +13,8 @@
                      style="max-height: 250px; object-fit: contain;">
                 <h2 class="card-price my-2">{{ product.price }} руб.</h2>
                 <p class="card-text flex-grow-1">{{ product.description|truncatechars:100 }}</p>
-                {% if user.is_authenticated %}
                 <a href="{% url 'catalog:product_page' product.pk %}"
                    class="btn btn-outline-primary w-100 mt-auto hover-effect" role="button">Посмотреть</a>
-                {% endif %}
             </div>
         </div>
     </div>
