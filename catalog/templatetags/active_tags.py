@@ -4,6 +4,7 @@ from django.conf import settings
 
 register = template.Library()
 
+
 @register.simple_tag
 def active(request, *url_names):
     current_url_name = request.resolver_match.url_name
@@ -15,5 +16,5 @@ def active(request, *url_names):
 @register.filter()
 def media_filter(path):
     if path:
-        return f'{settings.MEDIA_URL}{path}'
-    return '#'
+        return f"{settings.MEDIA_URL}{path}"
+    return "#"
