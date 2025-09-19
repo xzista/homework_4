@@ -1,9 +1,10 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, TemplateView, DeleteView
 from django.urls import reverse_lazy, reverse
 
-from catalog.forms import ProductForm
+from catalog.forms import ProductForm, ProductModerateForm
 from catalog.models import Product, Contact, Category
 
 
@@ -28,6 +29,13 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
 
         context["categories"] = categories
         return context
+
+    def form_valid(self, form):
+        product = form.save()
+        user = self.request.user
+        product.owner = user
+        product.save()
+        return super().form_valid(form)
 
 
 class ProductDetailView(LoginRequiredMixin, DetailView):
@@ -54,11 +62,29 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse("catalog:product_page", args=[self.kwargs.get("pk")])
 
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner:
+            return ProductForm
+        if user.has_perm('catalog.can_unpublish_product'):
+            return ProductModerateForm
+        raise PermissionDenied
 
-class ProductDeleteView(LoginRequiredMixin, DeleteView):
+
+class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Product
     template_name = "product_delete.html"
     success_url = reverse_lazy("catalog:home")
+    permission_required = "catalog.delete_product"
+
+    def has_permission(self):
+        product = self.get_object()
+        user = self.request.user
+
+        if user == product.owner:
+            return True
+
+        return super().has_permission()
 
 
 class ContactsView(TemplateView):
