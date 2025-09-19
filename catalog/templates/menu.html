@@ -64,7 +64,11 @@
             <strong>{{ user.email }}</strong>
         </a>
         <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser">
-            <li><a class="dropdown-item" href="#">Профиль</a></li>
+            <li>
+                <a class="dropdown-item" href="{% url 'users:profile-update' user.pk %}">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>Редактировать профиль
+                </a>
+            </li>
             <li>
                 <hr class="dropdown-divider">
             </li>
