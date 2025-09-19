@@ -26,6 +26,14 @@ class ProductForm(StyleFormMixin, ModelForm):
             "image",
         ]
 
+class ProductModerateForm(StyleFormMixin, ModelForm):
+    class Meta:
+        model = Product
+        fields = [
+            "is_published",
+        ]
+
+
     def clean_price(self):
         price = self.cleaned_data["price"]
         if int(price) < 0:
