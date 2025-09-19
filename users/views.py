@@ -26,7 +26,7 @@ class RegisterView(CreateView):
         host = self.request.get_host()
         url = f'http://{host}/users/email-confirm/{token}'
         send_mail(subject='Подтверждение почты после регистрации',
-                  message=f'Спасибо что присоединились к нашему маркетплейсу FastDeli!\nДля подтверждения почты перейдите по ссылке: {url}',
+                  message=f'Спасибо что присоединились к нашему маркетплейсу FastDeli!\nДля подтверждения почты перейдите по ссылке: {url}\n\n\nЭто письмо отправлено автоматически, отвечать на него не нужно',
                   from_email=EMAIL_HOST_USER,
                   recipient_list=[user.email]
                   )
