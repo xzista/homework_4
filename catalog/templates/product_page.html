@@ -21,8 +21,10 @@
                 <p class="lead">{{ product.description }}</p>
                 <h3 class="text-primary">{{ product.price }} руб.</h3>
                 <a href="{% url 'catalog:product_page' product.pk %}" class="btn btn-primary btn-lg" role="button">Посмотреть</a>
+                {% if user == product.owner %}
                 <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-light">Редактировать</a>
                 <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-danger">Удалить</a>
+                {% endif %}
             </div>
         </div>
     </div>
