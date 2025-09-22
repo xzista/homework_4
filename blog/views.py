@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
@@ -37,7 +38,7 @@ class BlogDetailView(DetailView):
         return self.object
 
 
-class BlogCreateView(CreateView):
+class BlogCreateView(LoginRequiredMixin, CreateView):
     model = BlogPost
     fields = [
         "title",
@@ -49,7 +50,7 @@ class BlogCreateView(CreateView):
     success_url = reverse_lazy("blog:posts")
 
 
-class BlogUpdateView(UpdateView):
+class BlogUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = BlogPost
     template_name = "post_form.html"
     fields = (
@@ -59,12 +60,14 @@ class BlogUpdateView(UpdateView):
         "is_published",
     )
     success_url = reverse_lazy("blog:posts")
+    permission_required = "blog.change_blogpost"
 
     def get_success_url(self):
         return reverse("blog:post_page", args=[self.kwargs.get("pk")])
 
 
-class BlogDeleteView(DeleteView):
+class BlogDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = BlogPost
     template_name = "post_delete.html"
     success_url = reverse_lazy("blog:posts")
+    permission_required = "blog.delete_blogpost"
