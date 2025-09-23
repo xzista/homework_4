@@ -1,4 +1,7 @@
+{% extends 'base.html' %}
 {% load active_tags %}
+{% block title %}Категории{% endblock %}
+{% block content %}
 <div class="row justify-content-center mt-5 g-4">
     {% for category in categories %}
     <div class="col-sm-6 col-md-4 col-lg-3">
@@ -115,3 +118,4 @@
         border-color: #0d6efd;
     }
 </style>
+{% endblock %}
