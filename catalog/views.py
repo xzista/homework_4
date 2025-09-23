@@ -6,6 +6,7 @@ from django.urls import reverse_lazy, reverse
 
 from catalog.forms import ProductForm, ProductModerateForm
 from catalog.models import Product, Contact, Category
+from catalog.services import ProductService
 
 
 class ProductListView(ListView):
@@ -15,6 +16,8 @@ class ProductListView(ListView):
     paginate_by = 8
     ordering = ["updated_at"]
 
+    def get_queryset(self):
+        return ProductService.get_products_from_cache()
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
