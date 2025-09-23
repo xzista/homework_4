@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load active_tags %}
+{% block title %}{{ category.name }}{% endblock %}
+{% block content %}
+<div class="text-center">
+    <h1 class="mb-3">Продукты категории: {{ category.name }}</h1>
+</div>
+{% include 'product_list.html' %}
+{% endblock %}
