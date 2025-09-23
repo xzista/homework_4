@@ -10,7 +10,7 @@ from catalog.services import ProductService
 
 class CategoryListView(ListView):
     model = Category
-    template_name = "categories.html"
+    template_name = "categories_list.html"
     context_object_name = "categories"
     paginate_by = 8
 
@@ -20,11 +20,12 @@ class ProductsByCategoryView(ListView):
     context_object_name = "products"
 
     def get_queryset(self):
-        return Product.get_product_list_by_category(self.kwargs["category_id"])
+        return ProductService.get_product_list_by_category(self.kwargs["category_id"])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["category"] = self.category
+        category_id = self.kwargs["category_id"]
+        context["category"] = Category.objects.get(pk=category_id)
         return context
 
 class ProductListView(ListView):
