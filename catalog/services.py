@@ -18,3 +18,7 @@ class ProductService:
         products = Product.objects.all()
         cache.set(key, products)
         return products
+
+    @staticmethod
+    def get_product_list_by_category(category):
+        return Product.objects.filter(category=category)
