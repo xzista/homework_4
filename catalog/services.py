@@ -20,5 +20,5 @@ class ProductService:
         return products
 
     @staticmethod
-    def get_product_list_by_category(category):
-        return Product.objects.filter(category=category)
+    def get_product_list_by_category(category_id):
+        return Product.objects.filter(category_id=category_id)

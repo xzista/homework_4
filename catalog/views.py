@@ -8,6 +8,24 @@ from catalog.forms import ProductForm, ProductModerateForm
 from catalog.models import Product, Contact, Category
 from catalog.services import ProductService
 
+class CategoryListView(ListView):
+    model = Category
+    template_name = "categories.html"
+    context_object_name = "categories"
+    paginate_by = 8
+
+class ProductsByCategoryView(ListView):
+    model = Product
+    template_name = "products_by_category.html"
+    context_object_name = "products"
+
+    def get_queryset(self):
+        return Product.get_product_list_by_category(self.kwargs["category_id"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["category"] = self.category
+        return context
 
 class ProductListView(ListView):
     model = Product
