@@ -19,7 +19,7 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="nav-link {% active request 'categories' %}">
+                <a href="{% url 'catalog:categories' %}" class="nav-link {% active request 'categories' 'products_by_category' %}">
                     Категории
                 </a>
             </li>
